@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -O3 -std=c++11  -shared -Wl,-soname,segment.so -o segment.so CMakeFiles/segment.dir/segment_py.cpp.o -Wl,-rpath,/usr/local/lib /usr/local/lib/libboost_python3.so /usr/local/lib/libboost_numpy.so -lpython3.5m 
