@@ -1,5 +1,0 @@
-selectivesearch.egg-info/PKG-INFO
-selectivesearch.egg-info/SOURCES.txt
-selectivesearch.egg-info/dependency_links.txt
-selectivesearch.egg-info/requires.txt
-selectivesearch.egg-info/top_level.txt
