@@ -4,7 +4,7 @@
 from distutils.core import setup
 
 setup(
-    name='selectivesearch',
+    name='selective_search',
     version='1.0',
     description='Selective search.',
     install_requires=[

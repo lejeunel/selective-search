@@ -13,8 +13,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 import networkx as nx
 from itertools import combinations
-import my_utils as utls
 import progressbar
+
+def relabel(labels,map_dict):
+    shape = labels.shape
+    labels = labels.ravel()
+    new_labels = np.copy(labels)
+    for k, v in map_dict.items():
+        new_labels[labels==k] = v
+
+    return new_labels.reshape(shape)
 
 def intersect(lists):
     return list(set.intersection(*map(set, lists)))
@@ -239,7 +247,7 @@ def hierarchical_segmentation(I, feature_mask = features.SimilarityMask(1, 1, 1,
         if(np.any((sorted_labels[1:] - sorted_labels[0:-1])>1)):
             relabeled = True
             map_dict = {sorted_labels[i]:i for i in range(sorted_labels.shape[0])}
-            F0 = utls.relabel(F0,map_dict)
+            F0 = relabel(F0,map_dict)
 
         n_region = np.unique(F0.ravel()).shape[0]
     adj_mat, A0 = _calc_adjacency_matrix(F0, n_region)
@@ -297,7 +305,7 @@ def hierarchical_segmentation(I, feature_mask = features.SimilarityMask(1, 1, 1,
         with progressbar.ProgressBar(maxval=len(F)) as bar:
             for i in range(len(F)):
                 bar.update(i)
-                F[i] = utls.relabel(F[i],inv_map)
+                F[i] = relabel(F[i],inv_map)
 
     if(return_stacks):
         return (R, F, g)
