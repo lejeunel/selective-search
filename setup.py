@@ -12,7 +12,6 @@ setup(
         "joblib>=0.8.4",
         "matplotlib>=1.4.3",
         "numpy>=1.9.2",
-        "Pillow>=2.8.1",
         "PyYAML>=3.11",
         "scikit-image>=0.11.3",
         "scikit-learn>=0.16.0",
