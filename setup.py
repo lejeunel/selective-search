@@ -2,11 +2,14 @@
 """ Setup utility for the selective_search package. """
 
 from distutils.core import setup
+from setuptools import find_packages
 
 setup(
     name='selective_search',
     version='1.0',
     description='Selective search.',
+    packages=[''],
+    package_data={'': ['*.so']},
     install_requires=[
         "Cython>=0.22",
         "joblib>=0.8.4",
