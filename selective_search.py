@@ -4,7 +4,6 @@ import copy
 import joblib
 import numpy
 import scipy.sparse
-import segment
 import collections
 import skimage.io
 import features
@@ -72,7 +71,7 @@ def thr_all_graphs(g,marked,thr):
     return np.concatenate(new_marked)
 
 def thr_graph(g,thr):
-    
+
     ratios = nx.get_node_attributes(g,'ratios')
     #n = [n for n in g.nodes() if((g.node[n]['ratio']>thr) & (g.node[n]['n_elems']>1))]
     n = [n for n in g.nodes() if((g.node[n]['ratio']>thr))]
@@ -83,10 +82,10 @@ def thr_graph(g,thr):
         #this_leaves = g.successors(n[i])
         this_leaves = [l for l in this_leaves if(g.node[l]['n_elems'] == 1)]
         leaves.append(this_leaves)
-        
+
 
     #Add "lost nodes"
-    
+
 
 
     #Remove duplicates
@@ -164,7 +163,7 @@ def get_children(g,n):
     children = np.asarray([c for c in children if(stack[c] == 0)]).reshape(-1,1)
 
     return children
-    
+
 def generate_color_table(R):
     # generate initial color
     colors = numpy.random.randint(0, 255, (len(R), 3))
@@ -211,7 +210,7 @@ def _build_initial_similarity_set(A0, feature_extractor):
     S = list()
 
     if(feature_extractor.w.desc):
-       feature_extractor.desc_var = 1 
+       feature_extractor.desc_var = 1
 
     for (i, J) in A0.items():
         S += [(feature_extractor.similarity(i, j), (i, j)) for j in J if i < j]
@@ -238,18 +237,15 @@ def hierarchical_segmentation(I, feature_mask = features.SimilarityMask(1, 1, 1,
     """
     relabeled = False
 
-    if(F0 is None):
-        F0, n_region = segment.segment_label(I, 0.8, k, 100)
-    else:
-        #pass
-        #Remap if labels are not contiguous
-        sorted_labels = np.asarray(sorted(np.unique(F0).ravel()))
-        if(np.any((sorted_labels[1:] - sorted_labels[0:-1])>1)):
-            relabeled = True
-            map_dict = {sorted_labels[i]:i for i in range(sorted_labels.shape[0])}
-            F0 = relabel(F0,map_dict)
+    #pass
+    #Remap if labels are not contiguous
+    sorted_labels = np.asarray(sorted(np.unique(F0).ravel()))
+    if(np.any((sorted_labels[1:] - sorted_labels[0:-1])>1)):
+        relabeled = True
+        map_dict = {sorted_labels[i]:i for i in range(sorted_labels.shape[0])}
+        F0 = relabel(F0,map_dict)
 
-        n_region = np.unique(F0.ravel()).shape[0]
+    n_region = np.unique(F0.ravel()).shape[0]
     adj_mat, A0 = _calc_adjacency_matrix(F0, n_region)
     feature_extractor = features.Features(I, F0, n_region, feature_mask, desc_arr=desc_arr)
 
